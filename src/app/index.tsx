@@ -1,98 +1,154 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  SafeAreaView,
+  Platform,
+  PermissionsAndroid,
+  ActivityIndicator,
+} from "react-native";
+import { WebView } from "react-native-webview";
+import { BleManager, Device } from "react-native-ble-plx";
+import { decode } from "base-64";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+const htmlContent = require("../../index.html");
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+const ESP32_NAME = "PG";
+const SERVICE_UUID = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
+const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
+
+const manager = new BleManager();
+
+export default function IndexScreen() {
+  const webViewRef = useRef<WebView>(null);
+  const [isScanning, setIsScanning] = useState(false);
+  const [deviceConnected, setDeviceConnected] = useState(false);
+
+  useEffect(() => {
+    async function requestPermissions() {
+      if (Platform.OS === "android") {
+        await PermissionsAndroid.requestMultiple([
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
+          PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
+        ]);
+      }
+    }
+    requestPermissions();
+    return () => {
+      manager.destroy();
+    };
+  }, []);
+
+  const scanAndConnect = () => {
+    setIsScanning(true);
+    manager.startDeviceScan(null, null, (error, scannedDevice) => {
+      if (error) {
+        console.warn(error);
+        setIsScanning(false);
+        return;
+      }
+
+      if (scannedDevice && scannedDevice.name === ESP32_NAME) {
+        manager.stopDeviceScan();
+        setIsScanning(false);
+        connectToDevice(scannedDevice);
+      }
+    });
+  };
+
+  const connectToDevice = async (scannedDevice: Device) => {
+    try {
+      const connectedDevice = await scannedDevice.connect();
+      await connectedDevice.discoverAllServicesAndCharacteristics();
+      setDeviceConnected(true);
+
+      connectedDevice.monitorCharacteristicForService(
+        SERVICE_UUID,
+        CHARACTERISTIC_UUID,
+        (error, characteristic) => {
+          if (error) {
+            console.warn(error);
+            setDeviceConnected(false);
+            return;
+          }
+
+          if (characteristic?.value) {
+            const rawData = decode(characteristic.value);
+            try {
+              const data = JSON.parse(rawData);
+              const script = `window.receberDadosDoBluetooth(${data.temperatura}, ${data.umidade_solo}, ${data.luminosidade}); true;`;
+              if (webViewRef.current) {
+                webViewRef.current.injectJavaScript(script);
+              }
+            } catch (e) {
+              console.log("Erro no parsing JSON: ", e);
+            }
+          }
+        },
+      );
+    } catch (e) {
+      console.log("Erro de Conexão", e);
+      setDeviceConnected(false);
+    }
+  };
+
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+    <SafeAreaView style={styles.container}>
+      <WebView
+        ref={webViewRef}
+        source={htmlContent}
+        style={styles.webview}
+        originWhitelist={["*"]}
+        javaScriptEnabled={true}
+        bounces={false}
+        scrollEnabled={false}
+      />
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+      {!deviceConnected && (
+        <View style={styles.overlayButtonContainer}>
+          <TouchableOpacity
+            style={styles.connectBtn}
+            onPress={scanAndConnect}
+            disabled={isScanning}
+          >
+            {isScanning ? (
+              <ActivityIndicator color="#FFF" />
+            ) : (
+              <Text style={styles.btnText}>Conectar Bluetooth</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+      )}
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+  container: { flex: 1, backgroundColor: "#F8F5F0" },
+  webview: { flex: 1, backgroundColor: "transparent" },
+  overlayButtonContainer: {
+    position: "absolute",
+    bottom: 40,
+    width: "100%",
+    alignItems: "center",
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+  connectBtn: {
+    backgroundColor: "#FF8BA7",
+    paddingVertical: 14,
+    paddingHorizontal: 28,
+    borderRadius: 30,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  btnText: {
+    color: "#FFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
