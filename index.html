@@ -35,8 +35,6 @@
         --alert-bg: #66bb6a;
         --mood-color: #2e7d32;
         --top-icon-color: #64b5f6;
-
-        /* Dynamic Scenery Variables */
         --sky-1: #e0f7fa;
         --sky-2: #b2ebf2;
         --hill-b: #a5d6a7;
@@ -58,7 +56,6 @@
         background-color: var(--sky-2);
         transition: background-color 1s ease;
       }
-
       .scenery {
         position: fixed;
         inset: 0;
@@ -71,7 +68,6 @@
         transition: background 1s ease;
         overflow: hidden;
       }
-
       .clouds {
         opacity: var(--cloud-opa);
         transition: opacity 1s ease;
@@ -109,7 +105,6 @@
         top: -15px;
         right: 15px;
       }
-
       .c2 {
         width: 140px;
         height: 40px;
@@ -129,7 +124,6 @@
         top: -20px;
         right: 20px;
       }
-
       .c3 {
         width: 80px;
         height: 25px;
@@ -149,7 +143,6 @@
         top: -10px;
         right: 10px;
       }
-
       @keyframes float {
         0% {
           transform: translateX(0vw);
@@ -166,7 +159,6 @@
           transform: translateX(-100vw);
         }
       }
-
       .weather-layer {
         position: absolute;
         inset: -200px;
@@ -177,7 +169,6 @@
       .weather-layer.active {
         opacity: 1;
       }
-
       .weather-layer.rain {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cline x1='30' y1='-10' x2='10' y2='40' stroke='rgba(255,255,255,0.6)' stroke-width='1.5'/%3E%3Cline x1='80' y1='30' x2='60' y2='80' stroke='rgba(255,255,255,0.4)' stroke-width='1'/%3E%3C/svg%3E");
         background-size: 100px 100px;
@@ -191,7 +182,6 @@
           background-position: -20px 100px;
         }
       }
-
       .weather-layer.snow {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Ccircle cx='20' cy='20' r='3.5' fill='white' opacity='0.9'/%3E%3Ccircle cx='80' cy='60' r='5' fill='white' opacity='0.7'/%3E%3Ccircle cx='120' cy='110' r='2.5' fill='white' opacity='0.6'/%3E%3Ccircle cx='40' cy='130' r='3' fill='white' opacity='0.8'/%3E%3C/svg%3E");
         background-size: 150px 150px;
@@ -205,12 +195,10 @@
           background-position: 0 150px;
         }
       }
-
       .weather-layer.stars {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='20' cy='20' r='1.5' fill='white' opacity='0.9'/%3E%3Ccircle cx='70' cy='40' r='2' fill='white' opacity='0.7'/%3E%3Ccircle cx='40' cy='80' r='1.5' fill='white' opacity='0.5'/%3E%3C/svg%3E");
         background-size: 120px 120px;
       }
-
       .weather-layer.heat {
         background: radial-gradient(
           circle at center,
@@ -229,7 +217,19 @@
           opacity: 1;
         }
       }
-
+      .weather-layer.dust {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Ccircle cx='20' cy='30' r='2' fill='%23BCAAA4' opacity='0.6'/%3E%3Ccircle cx='70' cy='60' r='1.5' fill='%238D6E63' opacity='0.5'/%3E%3Ccircle cx='40' cy='80' r='2.5' fill='%23BCAAA4' opacity='0.5'/%3E%3C/svg%3E");
+        background-size: 100px 100px;
+        animation: blowingDust 3s linear infinite;
+      }
+      @keyframes blowingDust {
+        from {
+          background-position: 0 0;
+        }
+        to {
+          background-position: 100px -40px;
+        }
+      }
       .hills-container {
         position: absolute;
         bottom: 0;
@@ -246,7 +246,6 @@
         fill: var(--hill-f);
         transition: fill 1s ease;
       }
-
       .app-container {
         width: 100%;
         max-width: 420px;
@@ -254,18 +253,22 @@
         flex-direction: column;
         align-items: center;
         gap: 12px;
+        margin-top: 20px;
         padding-bottom: 40px;
         position: relative;
         z-index: 10;
       }
-
       .header {
         text-align: center;
         padding-top: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
       }
       .header h1 {
         font-family: "Rum Raisin", sans-serif;
-        font-size: 46px;
+        font-size: 40px;
         color: #ffffff;
         letter-spacing: 2px;
         line-height: 1.1;
@@ -273,9 +276,32 @@
           -2px 2px 0 var(--alert-bg), 2px 2px 0 var(--alert-bg),
           4px 4px 0 var(--alert-bg), 4px 8px 10px rgba(0, 0, 0, 0.2);
         transition: all 0.6s ease;
-        margin-bottom: 6px;
+        margin-bottom: 0;
         font-weight: bold;
       }
+
+      .profile-info {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        padding: 6px 16px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .profile-info .plant-name {
+        font-size: 16px;
+        font-weight: 900;
+        color: #1b5e20;
+        text-transform: uppercase;
+      }
+      .profile-info .plant-type {
+        font-size: 11px;
+        font-weight: 700;
+        color: #757575;
+        text-transform: uppercase;
+      }
+
       .status-pill {
         display: inline-block;
         font-size: 11px;
@@ -283,7 +309,6 @@
         font-weight: 800;
         padding: 5px 14px;
         border-radius: 12px;
-        margin-top: 4px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         transition: background-color 0.5s;
@@ -292,13 +317,9 @@
       .status-pill.waiting {
         background-color: #ab47bc;
       }
-      .status-pill.error {
-        background-color: #ec407a;
-      }
       .status-pill.connected {
         background-color: #66bb6a;
       }
-
       .mood-label {
         background: #ffffff;
         padding: 8px 14px;
@@ -332,7 +353,6 @@
         border-style: solid;
         border-color: transparent #ffffff transparent transparent;
       }
-
       .tamagotchi-device {
         position: relative;
         background: linear-gradient(
@@ -352,7 +372,6 @@
         width: 244px;
         z-index: 2;
       }
-
       .shell-mask {
         position: absolute;
         inset: 0;
@@ -402,21 +421,6 @@
         --petal: #fff176;
         --center: #ffb74d;
       }
-
-      .level-badge {
-        position: absolute;
-        top: 6px;
-        right: 6px;
-        font-family: "VT323", monospace;
-        font-size: 14px;
-        color: var(--face-color);
-        background: rgba(0, 0, 0, 0.05);
-        padding: 1px 6px;
-        border-radius: 4px;
-        z-index: 5;
-        transition: color 0.5s;
-      }
-
       .lcd-screen {
         width: 164px;
         height: 152px;
@@ -450,7 +454,6 @@
         );
         pointer-events: none;
       }
-
       .sun {
         height: 0;
         width: 0;
@@ -505,7 +508,6 @@
       .sunrays:after {
         transform: rotate(60deg);
       }
-
       .top-icon {
         position: absolute;
         top: 15px;
@@ -527,7 +529,6 @@
           transform: translateY(-4px) rotate(5deg);
         }
       }
-
       .deco-row {
         position: absolute;
         top: 40px;
@@ -539,7 +540,6 @@
       .deco {
         font-size: 14px;
       }
-
       .plant-head {
         width: 74px;
         height: 50px;
@@ -572,7 +572,6 @@
         background: rgba(255, 255, 255, 0.25);
         border-radius: 50%;
       }
-
       .flowers {
         position: absolute;
         top: -14px;
@@ -600,7 +599,6 @@
           transform: rotate(10deg);
         }
       }
-
       .plant-face {
         font-family: "VT323", monospace;
         font-size: 30px;
@@ -648,27 +646,6 @@
         border-radius: 0 0 9px 9px;
         clip-path: polygon(4% 0%, 96% 0%, 86% 100%, 14% 100%);
       }
-
-      .tama-buttons {
-        display: flex;
-        gap: 16px;
-        margin-top: 16px;
-        z-index: 5;
-      }
-      .tama-btn {
-        width: 24px;
-        height: 24px;
-        background: linear-gradient(145deg, #ededed, #d5d5d5);
-        border-radius: 50%;
-        cursor: pointer;
-        box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.15),
-          inset 0 2px 2px rgba(255, 255, 255, 0.8);
-      }
-      .tama-btn:active {
-        transform: scale(0.9);
-        box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
-      }
-
       .alert-banner {
         width: 100%;
         background: var(--alert-bg);
@@ -679,10 +656,6 @@
         transition: background 0.6s, transform 0.1s;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         margin-top: 6px;
-        cursor: pointer;
-      }
-      .alert-banner:active {
-        transform: scale(0.98);
       }
       .alert-banner span {
         color: #ffffff;
@@ -690,7 +663,6 @@
         font-size: 15px;
         font-family: "Nunito", sans-serif;
       }
-
       .stats-row {
         display: flex;
         gap: 12px;
@@ -712,7 +684,6 @@
         margin-bottom: 2px;
         transition: color 0.5s;
       }
-
       .stat-card.good .stat-icon {
         color: #81c784;
       }
@@ -725,7 +696,6 @@
       .stat-card.info .stat-icon {
         color: #64b5f6;
       }
-
       .stat-value {
         font-size: 20px;
         font-weight: 900;
@@ -738,7 +708,6 @@
         font-weight: 800;
         text-transform: uppercase;
       }
-
       .history-section {
         width: 100%;
         background: rgba(255, 255, 255, 0.95);
@@ -758,7 +727,6 @@
         color: #9e9e9e;
         text-transform: uppercase;
       }
-
       .chart-legend {
         display: flex;
         gap: 8px;
@@ -767,17 +735,6 @@
         text-transform: uppercase;
         margin-top: 4px;
       }
-
-      .period-select {
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        padding: 4px 8px;
-        font-size: 11px;
-        color: #757575;
-        background: transparent;
-        outline: none;
-      }
-
       .mini-chart {
         display: flex;
         align-items: flex-end;
@@ -794,7 +751,6 @@
         transition: height 0.5s ease;
         position: relative;
       }
-
       .bar-label {
         position: absolute;
         bottom: 100%;
@@ -809,358 +765,130 @@
         line-height: 1;
         letter-spacing: 0.5px;
       }
-
-      .test-toggle {
-        background: rgba(255, 255, 255, 0.5);
-        border: 2px dashed #bdbdbd;
-        color: #9e9e9e;
-        padding: 10px 20px;
-        border-radius: 20px;
-        font-weight: 700;
-        cursor: pointer;
-        margin-top: 10px;
-        transition: all 0.3s;
-      }
-      .test-toggle:hover {
-        border-color: #003300;
-        color: #ffffff;
-        background: #1b5e20;
-      }
-
-      .dev-tools {
-        display: none;
-        width: 100%;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 16px;
-        padding: 16px;
-        margin-top: 8px;
-        border: 1px solid #e0e0e0;
-      }
-      .dev-tools.active {
-        display: block;
-        animation: fadeIn 0.3s;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .dev-tools h4 {
-        font-size: 14px;
-        color: #424242;
-        margin-bottom: 12px;
-        text-align: center;
-      }
-      .slider-group {
-        margin-bottom: 12px;
-      }
-      .slider-group label {
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-        font-weight: 700;
-        color: #616161;
-        margin-bottom: 4px;
-      }
-      /* Previne o fundo preto nos sliders em celulares (Safari/Chrome Mobile) */
-      input[type="range"] {
-        width: 100%;
-        accent-color: #81c784;
-        background-color: transparent;
-      }
     </style>
   </head>
   <body>
-    <!-- Background Scenery Container -->
     <div class="scenery" id="scenery">
-      <!-- Stars behind clouds -->
       <div class="weather-layer stars" id="weather-stars"></div>
-
       <div class="clouds">
         <div class="cloud c1"></div>
         <div class="cloud c2"></div>
         <div class="cloud c3"></div>
       </div>
-
       <div class="hills-container">
-        <!-- SVG Hills - slice preserves circle proportions while scaling the hills to cover the area -->
         <svg
           viewBox="0 0 1440 320"
           preserveAspectRatio="xMidYMax slice"
           style="width: 100%; height: 100%"
         >
-          <defs>
-            <g id="flower-pink">
-              <line
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="40"
-                stroke="var(--hill-b)"
-                stroke-width="3"
-              />
-              <path d="M0,15 Q-15,5 -15,15 Q-5,25 0,15" fill="var(--hill-b)" />
-              <circle cx="-7" cy="-7" r="7" fill="#FF8BA7" />
-              <circle cx="7" cy="-7" r="7" fill="#FF8BA7" />
-              <circle cx="-7" cy="7" r="7" fill="#FF8BA7" />
-              <circle cx="7" cy="7" r="7" fill="#FF8BA7" />
-              <circle cx="0" cy="0" r="5" fill="#FFF59D" />
-            </g>
-            <g id="flower-blue">
-              <line
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="40"
-                stroke="var(--hill-b)"
-                stroke-width="3"
-              />
-              <path d="M0,15 Q-15,5 -15,15 Q-5,25 0,15" fill="var(--hill-b)" />
-              <circle cx="-7" cy="-7" r="7" fill="#81D4FA" />
-              <circle cx="7" cy="-7" r="7" fill="#81D4FA" />
-              <circle cx="-7" cy="7" r="7" fill="#81D4FA" />
-              <circle cx="7" cy="7" r="7" fill="#81D4FA" />
-              <circle cx="0" cy="0" r="5" fill="#FFF59D" />
-            </g>
-            <g id="flower-yellow">
-              <line
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="40"
-                stroke="var(--hill-b)"
-                stroke-width="3"
-              />
-              <path d="M0,15 Q-15,5 -15,15 Q-5,25 0,15" fill="var(--hill-b)" />
-              <circle cx="-7" cy="-7" r="7" fill="#FFF176" />
-              <circle cx="7" cy="-7" r="7" fill="#FFF176" />
-              <circle cx="-7" cy="7" r="7" fill="#FFF176" />
-              <circle cx="7" cy="7" r="7" fill="#FFF176" />
-              <circle cx="0" cy="0" r="5" fill="#FFB74D" />
-            </g>
-          </defs>
-
-          <!-- Back Hill -->
           <path
             class="hill-back"
             d="M0,160 C320,80 420,240 840,160 C1140,100 1440,180 1440,180 L1440,320 L0,320 Z"
           ></path>
-
-          <!-- Front Hill -->
           <path
             class="hill-front"
             d="M0,220 C240,300 480,140 960,220 C1200,260 1440,180 1440,180 L1440,320 L0,320 Z"
           ></path>
-
-          <!-- Scattered minimalist flowers overlapping hills -->
-          <g transform="translate(250, 240) scale(1)">
-            <use href="#flower-pink" />
-          </g>
-          <g transform="translate(380, 270) scale(0.8)">
-            <use href="#flower-blue" />
-          </g>
-          <g transform="translate(1060, 250) scale(1.1)">
-            <use href="#flower-yellow" />
-          </g>
-          <g transform="translate(1190, 280) scale(0.9)">
-            <use href="#flower-pink" />
-          </g>
-          <g transform="translate(850, 290) scale(0.7)">
-            <use href="#flower-blue" />
-          </g>
         </svg>
       </div>
-
-      <!-- Forefront weather overlays -->
       <div class="weather-layer rain" id="weather-rain"></div>
       <div class="weather-layer snow" id="weather-snow"></div>
       <div class="weather-layer heat" id="weather-heat"></div>
+      <div class="weather-layer dust" id="weather-dust"></div>
     </div>
 
     <div class="app-container">
       <header class="header">
         <h1>GotchaPlant</h1>
+        <div class="profile-info">
+          <span class="plant-name" id="plantNameDisplay">Minha Planta</span>
+          <span class="plant-type" id="plantTypeDisplay">Perfil: Moderada</span>
+        </div>
         <div class="status-pill waiting" id="connectionStatus">
           Aguardando pareamento BLE...
         </div>
       </header>
 
       <div class="tamagotchi-device" id="tamaDevice">
-        <!-- Balão flutuando na lateral externa do Tamagotchi -->
         <div class="mood-label" id="moodLabel">Inicializando...</div>
-
         <div class="shell-mask">
           <svg class="shell-deco sd-2" viewBox="0 0 100 100">
-            <circle cx="50" cy="24" r="20" fill="var(--petal)" />
-            <circle cx="75" cy="42" r="20" fill="var(--petal)" />
-            <circle cx="65" cy="71" r="20" fill="var(--petal)" />
-            <circle cx="35" cy="71" r="20" fill="var(--petal)" />
-            <circle cx="25" cy="42" r="20" fill="var(--petal)" />
-            <circle cx="50" cy="50" r="14" fill="var(--center)" />
-          </svg>
-          <svg class="shell-deco sd-3" viewBox="0 0 100 100">
-            <circle cx="50" cy="24" r="20" fill="var(--petal)" />
-            <circle cx="75" cy="42" r="20" fill="var(--petal)" />
-            <circle cx="65" cy="71" r="20" fill="var(--petal)" />
-            <circle cx="35" cy="71" r="20" fill="var(--petal)" />
-            <circle cx="25" cy="42" r="20" fill="var(--petal)" />
-            <circle cx="50" cy="50" r="14" fill="var(--center)" />
-          </svg>
-          <svg class="shell-deco sd-4" viewBox="0 0 100 100">
-            <circle cx="50" cy="24" r="20" fill="var(--petal)" />
-            <circle cx="75" cy="42" r="20" fill="var(--petal)" />
-            <circle cx="65" cy="71" r="20" fill="var(--petal)" />
-            <circle cx="35" cy="71" r="20" fill="var(--petal)" />
-            <circle cx="25" cy="42" r="20" fill="var(--petal)" />
-            <circle cx="50" cy="50" r="14" fill="var(--center)" />
-          </svg>
-          <svg class="shell-deco sd-5" viewBox="0 0 100 100">
-            <circle cx="50" cy="24" r="20" fill="var(--petal)" />
-            <circle cx="75" cy="42" r="20" fill="var(--petal)" />
-            <circle cx="65" cy="71" r="20" fill="var(--petal)" />
-            <circle cx="35" cy="71" r="20" fill="var(--petal)" />
-            <circle cx="25" cy="42" r="20" fill="var(--petal)" />
-            <circle cx="50" cy="50" r="14" fill="var(--center)" />
-          </svg>
-          <svg class="shell-deco sd-6" viewBox="0 0 100 100">
-            <circle cx="50" cy="24" r="20" fill="var(--petal)" />
-            <circle cx="75" cy="42" r="20" fill="var(--petal)" />
-            <circle cx="65" cy="71" r="20" fill="var(--petal)" />
-            <circle cx="35" cy="71" r="20" fill="var(--petal)" />
-            <circle cx="25" cy="42" r="20" fill="var(--petal)" />
             <circle cx="50" cy="50" r="14" fill="var(--center)" />
           </svg>
         </div>
-
         <div class="lcd-screen" id="lcdScreen">
-          <div class="level-badge" id="levelBadge">LV-</div>
           <div class="sun" id="sunElement">
             <div class="sunrays"></div>
             <div class="circle"></div>
           </div>
           <i class="top-icon fa-solid fa-droplet" id="topIcon"></i>
-
           <div class="deco-row">
-            <span class="deco" id="decoLeft"></span>
-            <span class="deco" id="decoRight"></span>
+            <span class="deco" id="decoLeft"></span
+            ><span class="deco" id="decoRight"></span>
           </div>
-
           <div class="leaves-row">
             <div class="leaf leaf-left"></div>
             <div class="leaf leaf-right"></div>
           </div>
-
           <div class="plant-head" id="plantHead">
             <div class="flowers" id="plantFlowers">
-              <span class="flower">🌸</span>
-              <span class="flower">🌼</span>
+              <span class="flower">🌸</span><span class="flower">🌼</span>
             </div>
             <span class="plant-face" id="plantFace">...</span>
           </div>
-
           <div class="stem"></div>
           <div class="pot-rim"></div>
           <div class="pot-body"></div>
         </div>
-
-        <div class="tama-buttons">
-          <div class="tama-btn"></div>
-          <div class="tama-btn"></div>
-          <div class="tama-btn"></div>
-        </div>
       </div>
 
-      <button class="alert-banner" id="alertBanner">
+      <div class="alert-banner" id="alertBanner">
         <span id="alertText">Conecte sua planta ao app.</span>
-      </button>
+      </div>
 
       <div class="stats-row">
         <div class="stat-card info" id="tempCard">
-          <i class="fa-solid fa-thermometer-half stat-icon"></i>
-          <span class="stat-value" id="tempValue">--°C</span>
-          <span class="stat-label">Temp</span>
+          <i class="fa-solid fa-thermometer-half stat-icon"></i
+          ><span class="stat-value" id="tempValue">--°C</span
+          ><span class="stat-label">Temp</span>
         </div>
         <div class="stat-card info" id="moistCard">
-          <i class="fa-solid fa-droplet stat-icon"></i>
-          <span class="stat-value" id="moistValue">--%</span>
-          <span class="stat-label">Umidade</span>
+          <i class="fa-solid fa-droplet stat-icon"></i
+          ><span class="stat-value" id="moistValue">--%</span
+          ><span class="stat-label">Umidade</span>
         </div>
         <div class="stat-card info" id="lightCard">
-          <i class="fa-solid fa-lightbulb stat-icon"></i>
-          <span class="stat-value" id="lightValue">--lx</span>
-          <span class="stat-label">Luz</span>
+          <i class="fa-solid fa-lightbulb stat-icon"></i
+          ><span class="stat-value" id="lightValue">--lx</span
+          ><span class="stat-label">Luz</span>
         </div>
       </div>
 
       <div class="history-section">
         <div class="history-header">
           <div>
-            <p class="history-title">Últimas leituras</p>
+            <p class="history-title">Histórico Salvo</p>
             <div class="chart-legend">
-              <span style="color: #ff8ba7">● Temperatura</span>
-              <span style="color: #64b5f6">● Umidade</span>
-              <span style="color: #ffd54f">● Luminosidade</span>
+              <span style="color: #ff8ba7">● Temp</span>
+              <span style="color: #64b5f6">● Umid</span>
+              <span style="color: #ffd54f">● Luz</span>
             </div>
           </div>
-          <select id="historyPeriod" class="period-select">
-            <option>1 min</option>
-            <option>5 min</option>
-            <option>1 hora</option>
-            <option>1 dia</option>
-          </select>
         </div>
         <div class="mini-chart" id="miniChart"></div>
-      </div>
-
-      <button class="test-toggle" onclick="toggleTestPanel()">
-        ⚙️ Ativar Modo Teste
-      </button>
-
-      <div class="dev-tools" id="devTools">
-        <h4>Simulador de Hardware</h4>
-        <div class="slider-group">
-          <label>Temperatura: <span id="lblTemp">25</span>°C</label>
-          <input
-            type="range"
-            id="simTemp"
-            min="0"
-            max="50"
-            value="25"
-            oninput="runSim()"
-          />
-        </div>
-        <div class="slider-group">
-          <label>Umidade do Solo: <span id="lblMoist">60</span>%</label>
-          <input
-            type="range"
-            id="simMoist"
-            min="0"
-            max="100"
-            value="60"
-            oninput="runSim()"
-          />
-        </div>
-        <div class="slider-group">
-          <label>Luz (Lux): <span id="lblLight">400</span>lx</label>
-          <input
-            type="range"
-            id="simLight"
-            min="0"
-            max="1000"
-            value="400"
-            oninput="runSim()"
-          />
-        </div>
       </div>
     </div>
 
     <script>
       const $ = (id) => document.getElementById(id);
+      const MAX_HISTORY = 6;
+      let globalCategory = "moderada";
+
+      const PLANT_THRESHOLDS = {
+        tropical: { minTemp: 20, maxTemp: 32, minMoist: 50, maxMoist: 90 },
+        moderada: { minTemp: 15, maxTemp: 30, minMoist: 30, maxMoist: 80 },
+        suculenta: { minTemp: 15, maxTemp: 35, minMoist: 10, maxMoist: 40 },
+      };
 
       const MOODS = {
         happy: {
@@ -1181,8 +909,6 @@
           alertText: "Condições perfeitas de cultivo!",
           deco: "",
           iconColor: "#FFD54F",
-
-          /* Dynamic Background Info */
           sky1: "#E0F7FA",
           sky2: "#B2EBF2",
           hillB: "#A5D6A7",
@@ -1209,7 +935,6 @@
           alertText: "ALERTA: Muito calor! Risco de secar.",
           deco: "🔥",
           iconColor: "#FF7043",
-
           sky1: "#FFE0B2",
           sky2: "#FFCC80",
           hillB: "#FFB74D",
@@ -1221,7 +946,7 @@
         thirsty: {
           face: "T_T",
           label: "Preciso de água!",
-          emoji: "💧",
+          emoji: "🌵",
           labelColor: "#C62828",
           screenBg: "#FFF3E0",
           bodyBg: "#FFCC80",
@@ -1234,17 +959,16 @@
           faceColor: "#4E342E",
           alertBg: "#EF5350",
           alertText: "ALERTA: Solo seco! Me dê água.",
-          deco: "💧",
-          icon: "fa-droplet",
-          iconColor: "#42A5F5",
-
+          deco: "💨",
+          icon: "fa-wind",
+          iconColor: "#BCAAA4",
           sky1: "#FFF9C4",
           sky2: "#FFF59D",
           hillB: "#D7CCC8",
           hillF: "#BCAAA4",
           cloudOpa: 0.1,
           cloudColor: "#ffffff",
-          weather: "none",
+          weather: "dust",
         },
         cold: {
           face: "~_~",
@@ -1265,7 +989,6 @@
           deco: "❄️",
           icon: "fa-snowflake",
           iconColor: "#64B5F6",
-
           sky1: "#E3F2FD",
           sky2: "#BBDEFB",
           hillB: "#CFD8DC",
@@ -1293,7 +1016,6 @@
           deco: "z",
           icon: "fa-moon",
           iconColor: "#9575CD",
-
           sky1: "#283593",
           sky2: "#1A237E",
           hillB: "#4527A0",
@@ -1321,7 +1043,6 @@
           deco: "💧",
           icon: "fa-water",
           iconColor: "#26C6DA",
-
           sky1: "#7AD2DD",
           sky2: "#208B9A",
           hillB: "#115760",
@@ -1334,10 +1055,8 @@
 
       let currentMood = "";
       let moodTimeout;
-      const historyData = { temp: [], moist: [], light: [] };
-      const MAX_HISTORY = 6;
 
-      function initChart() {
+      function initChartUI() {
         $("miniChart").innerHTML = "";
         for (let i = 0; i < MAX_HISTORY; i++) {
           const col = document.createElement("div");
@@ -1346,7 +1065,6 @@
           col.style.flex = "1";
           col.style.height = "100%";
           col.style.alignItems = "flex-end";
-
           ["temp", "moist", "light"].forEach((type) => {
             const bar = document.createElement("div");
             bar.className = "mini-bar";
@@ -1358,24 +1076,23 @@
                 : "#FFD54F";
             bar.dataset.type = type;
             bar.dataset.index = i;
-
             const label = document.createElement("span");
             label.className = "bar-label";
             bar.appendChild(label);
-
             col.appendChild(bar);
           });
           $("miniChart").appendChild(col);
         }
       }
-      initChart();
 
       function determineMood(temp, moisture, light) {
+        const limits =
+          PLANT_THRESHOLDS[globalCategory] || PLANT_THRESHOLDS.moderada;
         if (light < 100) return "sleeping";
-        if (moisture < 30) return "thirsty";
-        if (moisture > 80) return "wet";
-        if (temp > 32) return "hot";
-        if (temp < 15) return "cold";
+        if (moisture < limits.minMoist) return "thirsty";
+        if (moisture > limits.maxMoist) return "wet";
+        if (temp > limits.maxTemp) return "hot";
+        if (temp < limits.minTemp) return "cold";
         return "happy";
       }
 
@@ -1384,8 +1101,6 @@
         currentMood = moodKey;
         const m = MOODS[moodKey];
         const root = document.documentElement;
-
-        // Apply Tamagotchi variables
         root.style.setProperty("--screen-bg", m.screenBg);
         root.style.setProperty("--body-bg", m.bodyBg);
         root.style.setProperty("--body-bg-dark", m.bodyBgDark);
@@ -1399,8 +1114,6 @@
         root.style.setProperty("--face-color", m.faceColor);
         if (m.iconColor)
           root.style.setProperty("--top-icon-color", m.iconColor);
-
-        // Apply Dynamic Background Scenery Variables
         root.style.setProperty("--sky-1", m.sky1);
         root.style.setProperty("--sky-2", m.sky2);
         root.style.setProperty("--hill-b", m.hillB);
@@ -1408,12 +1121,12 @@
         root.style.setProperty("--cloud-opa", m.cloudOpa);
         root.style.setProperty("--cloud-color", m.cloudColor);
 
-        // Update Weather Overlays
-        ["rain", "snow", "heat", "stars"].forEach((w) => {
+        ["rain", "snow", "heat", "stars", "dust"].forEach((w) => {
           const el = document.getElementById(`weather-${w}`);
           if (el) {
-            if (m.weather === w) el.classList.add("active");
-            else el.classList.remove("active");
+            m.weather === w
+              ? el.classList.add("active")
+              : el.classList.remove("active");
           }
         });
 
@@ -1422,23 +1135,20 @@
         $("decoRight").textContent = m.deco;
         $("moodLabel").textContent = `${m.label} ${m.emoji}`;
         $("alertText").textContent = m.alertText;
-
         showMoodBalloon();
 
-        const sunElement = $("sunElement");
+        const sun = $("sunElement");
         const topIcon = $("topIcon");
         const flowers = $("plantFlowers");
-
-        sunElement.className = "sun";
+        sun.className = "sun";
         topIcon.className = "top-icon fa-solid";
         flowers.className = "flowers";
-
         if (moodKey === "happy") {
-          sunElement.classList.add("visible");
+          sun.classList.add("visible");
           flowers.classList.add("visible");
         }
         else if (moodKey === "hot") {
-          sunElement.classList.add("visible", "center-hot");
+          sun.classList.add("visible", "center-hot");
         }
         else if (m.icon) {
           topIcon.className = `top-icon fa-solid ${m.icon} visible`;
@@ -1446,104 +1156,116 @@
       }
 
       function updateSensorBadges(temp, moisture, light) {
+        const limits =
+          PLANT_THRESHOLDS[globalCategory] || PLANT_THRESHOLDS.moderada;
         $("tempValue").textContent = `${temp}°C`;
         $("tempCard").className = `stat-card ${
-          temp < 20 ? "info" : temp > 30 ? "danger" : "good"
+          temp < limits.minTemp
+            ? "info"
+            : temp > limits.maxTemp
+            ? "danger"
+            : "good"
         }`;
-
         $("moistValue").textContent = `${moisture}%`;
         $("moistCard").className = `stat-card ${
-          moisture < 30 ? "danger" : moisture > 80 ? "info" : "good"
+          moisture < limits.minMoist
+            ? "danger"
+            : moisture > limits.maxMoist
+            ? "info"
+            : "good"
         }`;
-
         $("lightValue").textContent = `${light}lx`;
         $("lightCard").className = `stat-card ${
           light < 100 ? "info" : light > 600 ? "warn" : "good"
         }`;
       }
 
-      function updateChart(temp, moisture, light) {
-        historyData.temp.push(temp);
-        historyData.moist.push(moisture);
-        historyData.light.push(light);
-
-        if (historyData.temp.length > MAX_HISTORY) {
-          historyData.temp.shift();
-          historyData.moist.shift();
-          historyData.light.shift();
-        }
-
-        const maxVals = { temp: 50, moist: 100, light: 1000 };
-        const chartAvailableHeight = 110;
-
-        document.querySelectorAll(".mini-bar").forEach((bar) => {
-          const type = bar.dataset.type;
-          const idx = parseInt(bar.dataset.index);
-          const data = historyData[type];
-          const label = bar.querySelector(".bar-label");
-
-          if (idx < data.length) {
-            const val = data[idx];
-            const pct = val / maxVals[type];
-            bar.style.height = `${Math.max(4, pct * chartAvailableHeight)}px`;
-
-            let unit = type === "temp" ? "°C" : type === "moist" ? "%" : "lx";
-            label.textContent = val + unit;
-            label.style.display = "block";
-          }
-          else {
-            bar.style.height = "4px";
-            label.style.display = "none";
-          }
-        });
-      }
-
       function showMoodBalloon() {
         const label = $("moodLabel");
         label.classList.add("show");
-
         clearTimeout(moodTimeout);
-
         moodTimeout = setTimeout(() => {
           label.classList.remove("show");
         }, 3500);
       }
-
       setInterval(() => {
-        if (!$("moodLabel").classList.contains("show")) {
-          showMoodBalloon();
-        }
+        if (!$("moodLabel").classList.contains("show")) showMoodBalloon();
       }, 10000);
+
+      window.setPlantProfile = function (name, category) {
+        $("plantNameDisplay").textContent = name;
+        $("plantTypeDisplay").textContent = `Perfil: ${category}`;
+        globalCategory = category;
+      };
 
       window.receberDadosDoBluetooth = function (temp, moisture, light) {
         $("connectionStatus").textContent = "Conectado (BLE)";
         $("connectionStatus").className = "status-pill connected";
-
         updateSensorBadges(temp, moisture, light);
         const mood = determineMood(temp, moisture, light);
         updatePlantVisual(mood);
-        updateChart(temp, moisture, light);
       };
 
-      function toggleTestPanel() {
-        const panel = $("devTools");
-        panel.classList.toggle("active");
-        runSim();
-      }
+      window.syncHistory = function (historyJsonArray) {
+        try {
+          const historyArr = JSON.parse(historyJsonArray);
+          const maxVals = { temp: 50, moist: 100, light: 1000 };
+          const chartAvailableHeight = 110;
 
-      function runSim() {
-        const t = parseInt($("simTemp").value);
-        const m = parseInt($("simMoist").value);
-        const l = parseInt($("simLight").value);
+          // Monta o gráfico com o histórico
+          document.querySelectorAll(".mini-bar").forEach((bar) => {
+            const type = bar.dataset.type;
+            const idx = parseInt(bar.dataset.index);
+            const label = bar.querySelector(".bar-label");
 
-        $("lblTemp").textContent = t;
-        $("lblMoist").textContent = m;
-        $("lblLight").textContent = l;
+            if (idx < historyArr.length) {
+              const val = historyArr[idx][type];
+              const pct = val / maxVals[type];
+              bar.style.height = `${Math.max(4, pct * chartAvailableHeight)}px`;
+              let unit = type === "temp" ? "°C" : type === "moist" ? "%" : "lx";
+              label.textContent = val + unit;
+              label.style.display = "block";
+            }
+            else {
+              bar.style.height = "4px";
+              label.style.display = "none";
+            }
+          });
 
-        window.receberDadosDoBluetooth(t, m, l);
-      }
+          // Pega a ultima leitura real do histórico para atualizar a planta
+          if (historyArr.length > 0) {
+            const lastReading = historyArr[historyArr.length - 1];
 
-      window.receberDadosDoBluetooth(25, 60, 400);
+            // Atualiza os valores na tela  com os últimos dados salvos
+            updateSensorBadges(
+              lastReading.temp,
+              lastReading.moist,
+              lastReading.light,
+            );
+
+            // Determina o humor da planta baseado no perfil escolhido e na última leitura
+            const mood = determineMood(
+              lastReading.temp,
+              lastReading.moist,
+              lastReading.light,
+            );
+            updatePlantVisual(mood);
+
+            // Avisa o usuário que ele está vendo o último estado salvo
+            $("connectionStatus").textContent =
+              "Mostrando última leitura salva...";
+            $("connectionStatus").className = "status-pill waiting";
+          }
+          else {
+            // Se não houver histórico salvo ainda, precisa fazer a primeira leitura
+            $("moodLabel").textContent = "Aguardando 1ª leitura...";
+          }
+        } catch (e) {
+          console.error("Erro ao ler o histórico: ", e);
+        }
+      };
+
+      initChartUI();
     </script>
   </body>
 </html>
