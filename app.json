@@ -40,6 +40,13 @@
         }
       ],
       [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/android-icon-monochrome.png",
+          "color": "#4CAF50"
+        }
+      ],
+      [
         "@config-plugins/react-native-ble-plx",
         {
           "isBackgroundEnabled": false,
@@ -49,7 +56,8 @@
           ],
           "bluetoothAlwaysPermission": "O app precisa de Bluetooth para se conectar à planta."
         }
-      ]
+      ],
+      "./plugins/with-background-monitor"
     ],
     "experiments": {
       "typedRoutes": true,
