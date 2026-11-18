@@ -65,9 +65,9 @@ Vídeos da versão apresentada na entrega final da matéria:
 - Lista de plantas na tela inicial; cada planta tem nome, tipo (**tropical**, **moderada** ou **suculenta**), frequência de registro e seu próprio dispositivo BLE.
 - Perfil, plantas e histórico ficam salvos no aparelho (AsyncStorage) — fechar o app não apaga mais nada.
 
-### 2. Diagnóstico que depende do tipo da planta
+### 2. Diagnóstico
 
-Antes, os limites eram fixos para todas as plantas. Agora um analisador por regras (`src/services/diagnosis/plant-analyzer.ts`) classifica cada leitura em **Tudo certo**, **Atenção** ou **Crítico**, com faixas diferentes para cada tipo:
+O diagnóstico para as plantas passam por um analisador por regras (`src/services/diagnosis/plant-analyzer.ts`) classifica cada leitura em **Tudo certo**, **Atenção** ou **Crítico**, com faixas diferentes para cada tipo:
 
 | Tipo         | Temperatura ideal | Umidade do solo ideal | Luz (de dia) |
 | ------------ | ----------------- | --------------------- | ------------ |
@@ -84,15 +84,15 @@ Por exemplo, 25 % de umidade é **crítico** para uma tropical, **atenção** pa
 
 As faixas ficam em `src/constants/plant-care.ts` e as ideais coincidem com as usadas pelo Tamagotchi (`index.html`).
 
-### 3. IA que roda no próprio celular (privada e local)
+### 3. Diagnóstico por meio de IA (privada e local)
 
 - Modelo de linguagem pré-treinado **Qwen2.5 1.5B Instruct** (formato GGUF, ~1,04 GB), executado com [`llama.rn`](https://github.com/mybigday/llama.rn) (llama.cpp para React Native).
-- O modelo é baixado **uma vez** (tela _Meu Jardim_ ou dentro do diagnóstico). Depois disso, a análise funciona mesmo sem internet.
-- A IA lê o **histórico salvo no aparelho** e os alertas calculados pelas regras, e escreve em português um diagnóstico, sugestões e avisos para aquela planta.
-- **Nenhum dado é enviado para terceiros: os dados são analisados apenas localmente, no seu dispositivo.** (A internet só é usada para baixar o modelo uma vez e para carregar as fontes/ícones da tela do Tamagotchi; nenhuma leitura sai do celular.)
-- A gravidade e as notificações vêm das regras, nunca do texto da IA — assim um erro do modelo não gera alarme falso.
+- O modelo é baixado **uma vez** (tela _Meu Jardim_ ou dentro do diagnóstico).A análise funciona mesmo sem internet.
+- A IA lê o **histórico salvo no aparelho** e os alertas calculados pelas regras, e escreve em um diagnóstico, sugestões e avisos para determinada planta.
+- **Nenhum dado é enviado para terceiros: os dados são analisados apenas localmente, no seu dispositivo.** 
+- A gravidade e as notificações vêm das regras.
 
-### 4. Notificações dizendo qual planta precisa de atenção
+### 4. Notificações
 
 - Notificação local quando uma leitura ao vivo fica **crítica** ou pede **atenção**, com o nome e o tipo da planta no título (ex.: `Jibóia: Solo muito seco`) e a ação recomendada no texto.
 - Tocar na notificação abre a tela daquela planta.
@@ -167,5 +167,4 @@ npx expo run:android
 - **Monitoramento em segundo plano:** o celular precisa estar ao alcance do Bluetooth da planta. O ciclo roda no máximo **1 vez por minuto**, então frequências menores que isso (ex.: 10 segundos) viram ~1 minuto com o app fechado. Se o usuário usar "Forçar parada" ou reiniciar o celular, o monitoramento só volta ao abrir o app. Alguns fabricantes (Xiaomi, Samsung etc.) encerram serviços para economizar bateria; pode ser preciso liberar o GotchaPlant na otimização de bateria.
 - Com a tela apagada por muito tempo, o Android pode adiar as verificações (o serviço não mantém o processador acordado o tempo todo, para economizar bateria). Isso ainda não foi medido em um celular real.
 - A IA exige um aparelho **64 bits** (arm64-v8a ou x86_64), ~1 GB livre para o modelo e alguns segundos a poucos minutos por análise, dependendo do processador.
-- O texto da IA é automático e pode errar; em caso de dúvida, valem os avisos calculados pelas regras.
 - As faixas críticas de cada tipo são valores padrão para plantas de interior; a calibração dos seus sensores se encontra em `src/constants/plant-care.ts`.
